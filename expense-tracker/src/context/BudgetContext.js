@@ -2,6 +2,7 @@ import React from "react";
 import { createContext,useContext,useState } from "react";
 import { Prev } from "react-bootstrap/esm/PageItem";
 import {v4 as uuidV4} from 'uuid';
+import UseLocalStorage from "../hooks/UseLocalStorage.js";
 
 export const BudgetContext = createContext(null);
 
@@ -11,11 +12,11 @@ export function useBudgets() {
 
 const BudgetProvider = ({children})=>{
 
-    const [Budgets,setbudget] = useState([]);
-    const [expenses,setexpenses] = useState([]);
+    const [budgets,setbudget] = UseLocalStorage("budgets",[]);
+    const [expenses,setexpenses] = UseLocalStorage("expenses",[]);
 
     function getBudgetExpenses(budgetId){
-        expenses.filter(expense=> expense.budgetId===budgetId);
+        return expenses.filter(expense=> expense.budgetId===budgetId);
     }
     
     function addExpense({description, amount , budgetId}){
@@ -55,7 +56,7 @@ const BudgetProvider = ({children})=>{
     return (
         <BudgetContext.Provider
         value={{
-            Budgets,
+            budgets,
             expenses,
             getBudgetExpenses,
             addExpense,
