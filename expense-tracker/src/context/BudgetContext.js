@@ -6,6 +6,8 @@ import UseLocalStorage from "../hooks/UseLocalStorage.js";
 
 export const BudgetContext = createContext(null);
 
+export const UNCATEGORISED_BUDGET_ID = "uncategorized";
+
 export function useBudgets() {
     return useContext(BudgetContext);
 }
@@ -37,7 +39,14 @@ const BudgetProvider = ({children})=>{
     }
 
     function deleteBudget({ id }){
-        // TODO: deal with expenses
+        
+        setexpenses(prevExpenses => {
+            return prevExpenses.map(expense => {
+                if(expense.budgetId !== id) return expense
+                return {...expense, budgetId: UNCATEGORISED_BUDGET_ID}
+            })
+        })
+
         setbudget(prevBudget=> {
             return prevBudget.filter(budget=> budget.id!==id);
         })
