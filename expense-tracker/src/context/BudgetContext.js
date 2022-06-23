@@ -38,7 +38,7 @@ const BudgetProvider = ({children})=>{
         })
     }
 
-    function deleteBudget({ id }){
+    function deleteBudget(id){
         
         setexpenses(prevExpenses => {
             return prevExpenses.map(expense => {
